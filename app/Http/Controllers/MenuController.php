@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
 {
@@ -88,9 +88,27 @@ class MenuController extends Controller
         return redirect()->route('menu.index')->with('success', 'Menu item deleted successfully.');
     }
 
-    public function show()
-    {
-        $menus = Menu::all();
-        return view('menu.showmenu', compact('menus'));
+    // public function show()
+    // {
+    //     $menus = Menu::all();
+    //     return view('menu.showmenu', compact('menus'));
+    // }
+
+    public function show(Request $request)
+{
+    $query = Menu::query();
+
+    if ($request->filled('keyword')) {
+        $query->where('name', 'like', '%' . $request->keyword . '%');
     }
+
+    if ($request->filled('category')) {
+        $query->where('category', $request->category);
+    }
+
+    $menus = $query->get();
+
+    return view('menu.showmenu', compact('menus'));
+}
+
 }

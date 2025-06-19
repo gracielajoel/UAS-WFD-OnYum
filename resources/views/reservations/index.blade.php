@@ -146,10 +146,6 @@
         <img src="{{ asset('storage/' . $menu->image_url) }}" alt="{{ $menu->name }}" class="w-48 h-32 object-cover rounded-md mb-2" />
         <span class="text-white">{{ $menu->name }}</span>
         
-        <!-- Input Notes -->
-        {{-- <textarea name="notes[{{ $menu->id }}]" placeholder="Catatan (opsional)"
-        class="w-full mt-2 bg-gray-800 text-white rounded-md p-2 resize-none text-sm"
-        rows="2"></textarea> --}}
         <input
         type="text"
         name="notes[{{ $menu->id }}]"

@@ -9,15 +9,19 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TableController;
+
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\AdminReservationController;
 
 // Home page menggunakan HomeController
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Menu routes
 Route::resource('menu', MenuController::class);
-Route::get('/menu/showmenu', [MenuController::class, 'show'])->name('menu.showmenu');
+Route::get('/menu/show', [MenuController::class, 'show'])->name('menu.showmenu');
+
 
 // Tables routes
 Route::resource('tables', TableController::class);
@@ -36,7 +40,7 @@ Route::post('/reservations', [ReservationController::class, 'store'])->name('res
 Route::get('/reservations/history', [ReservationController::class, 'showOrderDetail'])->name('reservations.history');
 Route::post('/reservations/{id}/upload-proof', [ReservationController::class, 'uploadProof'])->name('reservations.uploadProof');
 
-use App\Http\Controllers\AdminReservationController;
+use App\Http\Controllers\PasswordController;
 
 Route::get('/admin/reservations/confirmation', [AdminReservationController::class, 'index'])->name('admin.reservations.index');
 Route::post('/admin/reservations/{reservation}/confirm', [AdminReservationController::class, 'confirm'])->name('admin.reservations.confirm');
@@ -46,6 +50,7 @@ Route::post('/admin/reservations/{reservation}/cancel', [AdminReservationControl
 Route::get('/admin', function () {
     return view('adminpage');
 })->name('admin.dashboard')->middleware('auth');
+
 
 Route::middleware(['auth'])->group(function () {
     // Admin dashboard
@@ -62,14 +67,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/reservations/history', [ReservationController::class, 'showOrderDetail'])->name('reservations.history');
 });
 
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('/admin', function () {
-//         return view('adminpage');
-//     })->name('admin.dashboard');
-// });
 
-// Route::middleware('auth')->group(function () {
-//     Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
-//     Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
-//     Route::get('/reservations/history', [ReservationController::class, 'showOrderDetail'])->name('reservations.history');
-// });
+Route::get('/password/reset', [PasswordController::class, 'showResetForm'])->name('password.form')->middleware('auth');
+Route::post('/password/reset', [PasswordController::class, 'updatePassword'])->name('password.update')->middleware('auth');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/daily', [OrderController::class, 'dailyReport'])->name('orders.daily');
+    Route::get('/orders/monthly', [OrderController::class, 'monthlyReport'])->name('orders.monthly');
+    Route::get('/orders/yearly', [OrderController::class, 'yearlyReport'])->name('orders.yearly');
+});

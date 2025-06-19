@@ -1,4 +1,3 @@
-<!-- resources/views/tables/form.blade.php -->
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>

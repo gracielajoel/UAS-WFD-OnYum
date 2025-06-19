@@ -136,17 +136,16 @@
         {{ isset($editing) ? 'Update' : 'Save' }} Menu Item
       </button>
 
-      {{-- @if(isset($editing)) --}}
+
         <a href="{{ route('menu.index') }}"
           class="flex-1 text-center bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-xl px-6 py-3 transition">
           Cancel
         </a>
-      {{-- @endif --}}
+
     </div>
   </form>
 </section>
 
-<!-- ... sisa layout tetap -->
     </div>
   </main>
 

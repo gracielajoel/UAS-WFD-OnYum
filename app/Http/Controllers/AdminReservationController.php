@@ -9,15 +9,37 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminReservationController extends Controller
 {
-    public function index()
+    // public function index()
+    // {
+    //     if (!Auth::check() || Auth::user()->role_id !== 1) {
+    //     return redirect()->route('home')->with('error', 'Unauthorized access.');
+    // }
+    //     $reservations = Reservation::with(['table', 'user'])->get();
+    //     $availableTables = Table::where('is_empty', true)->get();
+    //     return view('reservations.confirmation', compact('reservations', 'availableTables'));
+    // }
+
+    public function index(Request $request)
     {
         if (!Auth::check() || Auth::user()->role_id !== 1) {
         return redirect()->route('home')->with('error', 'Unauthorized access.');
     }
-        $reservations = Reservation::with(['table', 'user'])->get();
+        $search = $request->input('search');
+
+        $reservations = Reservation::with(['table', 'user'])
+        ->when($search, function($query) use($search){
+            $query->whereHas('user', function($q) use($search){
+                $q->where('name','like', '%'.$search.'%');
+            });
+        })
+        ->orderBy('date','desc')
+        ->get();
+
+
         $availableTables = Table::where('is_empty', true)->get();
         return view('reservations.confirmation', compact('reservations', 'availableTables'));
     }
+
 
     public function confirm(Request $request, Reservation $reservation)
     {

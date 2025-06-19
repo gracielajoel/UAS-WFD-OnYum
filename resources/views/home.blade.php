@@ -40,6 +40,14 @@
                                 Logout
                             </button>
                         </form>
+
+                        
+                        <a href="{{ route('password.form') }}"
+                        class="text-sm sm:text-base bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded transition">
+                        Change Password
+                        </a>
+                    
+
                     </div>
                 @else
                     <a href="{{ route('login') }}"

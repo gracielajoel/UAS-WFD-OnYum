@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
+
 use App\Models\Menu;
 use Illuminate\Http\Request;
 
@@ -14,4 +16,5 @@ class HomeController extends Controller
 
         return view('home', compact('popularMenus'));
     }
+
 }

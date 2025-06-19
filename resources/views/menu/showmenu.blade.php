@@ -51,9 +51,32 @@
     <section class="text-center mb-12">
         <h1 class="text-5xl font-bold text-white drop-shadow-lg tracking-widest">All Menu</h1>
         <p class="text-gray-300 mt-4 italic">Discover our complete selection of delicious dishes</p>
+        
+        <form action="{{ route('menu.showmenu') }}" method="GET" class="max-w-lg mx-auto mt-6">
+            <div class="flex flex-wrap items-center gap-2 justify-center">
+                <!-- Dropdown Category -->
+                <select name="category" id="category"
+                    class="text-sm text-white bg-[var(--color-dark-navy)] border border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-white/70">
+                    <option value="">All Categories</option>
+                    <option value="Sharing" {{ request('category') == 'Sharing' ? 'selected' : '' }}>Sharing</option>
+                    <option value="Personal" {{ request('category') == 'Personal' ? 'selected' : '' }}>Personal</option>
+                </select>
+
+                <!-- Input Search -->
+                <input type="text" name="keyword" value="{{ request('keyword') }}"
+                    class="text-sm w-48 sm:w-64 px-4 py-2 rounded-md border border-gray-600 bg-[var(--color-dark-navy)] text-white placeholder-gray-400 focus:outline-none focus:ring-white/70"
+                    placeholder="Search menu..." />
+
+                <!-- Submit Button -->
+                <button type="submit"
+                    class="bg-white text-[var(--color-dark-navy)] font-semibold px-4 py-2 rounded hover:bg-gray-200 transition shadow">
+                    Search
+                </button>
+            </div>
+        </form>
+
     </section>
 
-    {{-- Section Semua Menu --}}
     {{-- Section Semua Menu --}}
 <section class="px-4 sm:px-6 lg:px-16">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -67,7 +90,7 @@
                 </div>
             </div>
         @empty
-            <p class="col-span-full text-center text-gray-300">No menu items available at the moment.</p>
+            <p class="col-span-full text-center text-gray-300">No menu found{{ request('keyword') ? ' for "' . request('keyword') . '"' : '' }}.</p>
         @endforelse
     </div>
 </section>

@@ -29,6 +29,11 @@
                                 Logout
                             </button>
                         </form>
+
+                        <a href="{{ route('password.form') }}"
+                        class="text-sm sm:text-base bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded transition">
+                        Change Password
+                        </a>
                     </div>
                 @else
                     <a href="{{ route('login') }}"
@@ -44,21 +49,18 @@
     {{-- Spacer untuk menghindari navbar menutup konten --}}
     <div class="h-20"></div>
 
-    {{-- Container utama --}}
-    <div class="max-w-7xl mx-auto px-4 md:px-8 py-10">
-        @yield('content')
-    </div>
 
     {{-- Hero Section --}}
     <header class="relative flex flex-col items-center justify-center min-h-screen px-6 text-center bg-gradient-to-b from-[var(--color-dark-navy)] via-black to-black">
         <h1 class="text-5xl md:text-7xl font-extrabold mb-4 tracking-wide drop-shadow-lg">OnYum! Restaurant</h1>
         <p class="text-lg md:text-2xl mb-8 max-w-xl drop-shadow-md italic">Experience exquisite dining & effortless reservations</p>
+    </header>
 
 
     {{-- Feature Section --}}
     <section class="py-16 px-6 max-w-7xl mx-auto" id="features">
-        <h2 class="text-center text-4xl font-bold mb-12 tracking-widest text-white drop-shadow-lg">Our Services</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+        <h2 class="text-center text-4xl font-bold mb-12 tracking-widest text-white drop-shadow-lg">Admin Services</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 text-center">
             {{-- Feature 1: Menu Management --}}
             <a href="{{ route('menu.index') }}"
             class="block bg-[#363636] bg-opacity-60 rounded-xl p-8 shadow-lg hover:bg-white hover:text-[var(--color-dark-navy)] transition">
@@ -87,6 +89,18 @@
                 </svg>
                 <h3 class="text-xl font-semibold mb-2">Table Management</h3>
                 <p class="text-gray-300">Add, edit, or remove tables and monitor their availability status.</p>
+            </a>
+
+            {{-- Feature 4: Order Management --}}
+            <a href="{{ route('orders.index') }}"
+            class="block bg-[#363636] bg-opacity-60 rounded-xl p-8 shadow-lg hover:bg-white hover:text-[var(--color-dark-navy)] transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto mb-4 h-14 w-14 text-white transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 6h13M7 13l1.5-6h10m-9 10a1 1 0 11-2 0 1 1 0 012 0zm8 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                </svg>
+
+                <h3 class="text-xl font-semibold mb-2">Sales Report</h3>
+                <p class="text-gray-300">View daily, monthly, and yearly sales reports; dashboard with data visualization.</p>
             </a>
         </div>
     </section>
