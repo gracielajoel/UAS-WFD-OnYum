@@ -41,24 +41,39 @@ class OrderController extends Controller
             ->groupByRaw("EXTRACT(YEAR FROM reservations.date)")
             ->orderBy('year', 'desc')
             ->get();
-
-        // Top 3 menu items
-        $topMenuItems = DB::table('ordered_menus')
-            ->join('reservations', 'ordered_menus.reservation_id', '=', 'reservations.id')
+        
+        // Top 10 menu bulan ini
+        $topMenusThisMonth = DB::table('ordered_menus')
             ->join('menus', 'ordered_menus.menu_id', '=', 'menus.id')
+            ->join('reservations', 'ordered_menus.reservation_id', '=', 'reservations.id')
+            ->where('reservations.status', 'Finished')
+            ->whereMonth('reservations.date', now()->month)
+            ->whereYear('reservations.date', now()->year)
+            ->select('menus.name as menu_name', DB::raw('SUM(ordered_menus.quantity) as total'))
+            ->groupBy('menus.name')
+            ->orderByDesc('total')
+            ->limit(10)
+            ->get();
+
+        // Top 10 menu all time
+        $topMenusAllTime = DB::table('ordered_menus')
+            ->join('menus', 'ordered_menus.menu_id', '=', 'menus.id')
+            ->join('reservations', 'ordered_menus.reservation_id', '=', 'reservations.id')
             ->where('reservations.status', 'Finished')
             ->select('menus.name as menu_name', DB::raw('SUM(ordered_menus.quantity) as total'))
             ->groupBy('menus.name')
             ->orderByDesc('total')
-            ->limit(3)
+            ->limit(10)
             ->get();
+
 
 
         return view('orders.index', compact(
             'totalRevenue',
             'monthlyReport',
             'yearlyReport',
-            'topMenuItems'
+            'topMenusThisMonth',
+            'topMenusAllTime'
         ));
     }
 }

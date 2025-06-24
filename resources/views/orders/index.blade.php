@@ -30,23 +30,24 @@
             </section>
 
             <!-- Total Revenue Section -->
-<section class="bg-black bg-opacity-80 rounded-xl p-6 shadow-lg">
-    <h2 class="text-2xl font-bold mb-4 text-center">Total Revenue</h2>
-    <div class="text-center text-lg">
-        <p class="font-semibold">Total Revenue This Month:</p>
-        <p class="text-3xl">Rp{{ number_format($totalRevenue, 2) }}</p>
-    </div>
+            <!-- Total Revenue Section -->
+            <section class="bg-black bg-opacity-80 rounded-xl p-6 shadow-lg flex flex-col items-center justify-center text-center">
+                <!-- Icon: Chart Bar -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-green-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 17v-6m4 6V7m4 10v-3M5 3v18h16" />
+                </svg>
 
-    <h3 class="text-xl font-semibold mt-6 text-center">Top 3 Favorite Menu Items</h3>
-    <ul class="mt-2 text-center">
-        @foreach ($topMenuItems as $item)
-            <li class="border-b border-gray-700 py-1">
-                {{ $item->menu_name }} – {{ $item->total }} orders
-            </li>
-        @endforeach
-    </ul>
+                <h2 class="text-2xl font-bold mb-4 underline underline-offset-4 decoration-white">Total Revenue</h2>
+                
+                <div class="text-lg">
+                    <p class="font-semibold">Total Revenue This Month:</p>
+                    <p class="text-3xl mt-1">Rp{{ number_format($totalRevenue, 2) }}</p>
+                </div>
+            </section>
 
-</section>
+
+
             <!-- Report Table Section -->
             <section class="col-span-3 bg-black bg-opacity-80 rounded-xl p-6 shadow-lg mt-10">
                 <h2 class="text-2xl font-bold mb-6 text-center">Detailed Sales Report</h2>
@@ -96,6 +97,22 @@
                     </div>
                 </div>
             </section>
+        
+            <!-- Charts for Top Menu Items -->
+        <section class="col-span-3 mt-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <!-- Top 10 Menus This Month -->
+            <div class="bg-black bg-opacity-80 rounded-xl p-6 shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-center">Top 10 Menus This Month</h2>
+                <canvas id="topMenusThisMonthChart"></canvas>
+            </div>
+
+            <!-- Top 10 Menus All Time -->
+            <div class="bg-black bg-opacity-80 rounded-xl p-6 shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-center">Top 10 Menus All Time</h2>
+                <canvas id="topMenusAllTimeChart"></canvas>
+            </div>
+        </section>
+
 
         </div>
     </main>
@@ -136,6 +153,65 @@
             }
         });
     </script>
+
+        <script>
+        // Chart for top 10 menus this month
+        const topMenusThisMonth = @json($topMenusThisMonth);
+        const thisMonthLabels = topMenusThisMonth.map(item => item.menu_name);
+        const thisMonthData = topMenusThisMonth.map(item => parseInt(item.total));
+
+        new Chart(document.getElementById('topMenusThisMonthChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: thisMonthLabels,
+                datasets: [{
+                    label: 'Orders This Month',
+                    data: thisMonthData,
+                    backgroundColor: 'rgba(255, 205, 86, 0.7)',
+                    borderColor: 'rgba(255, 205, 86, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Chart for top 10 menus all time
+        const topMenusAllTime = @json($topMenusAllTime);
+        const allTimeLabels = topMenusAllTime.map(item => item.menu_name);
+        const allTimeData = topMenusAllTime.map(item => parseInt(item.total));
+
+        new Chart(document.getElementById('topMenusAllTimeChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: allTimeLabels,
+                datasets: [{
+                    label: 'Total Orders (All Time)',
+                    data: allTimeData,
+                    backgroundColor: 'rgba(153, 102, 255, 0.7)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
 
 
 

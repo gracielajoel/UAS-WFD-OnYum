@@ -85,7 +85,7 @@
         <!-- Jumlah Tamu -->
         <div>
           <label for="guests" class="block mb-2 font-semibold text-white">Jumlah Tamu</label>
-          <input type="number" id="guests" name="guests" min="1" max="20" placeholder="2" required
+          <input type="number" id="guests" name="guests" min="1" max="50" placeholder="2" required
             class="w-full rounded-md bg-[var(--color-dark-navy)] border border-gray-600 px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/80" />
         </div>
 
