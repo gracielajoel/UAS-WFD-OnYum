@@ -30,7 +30,6 @@
             </section>
 
             <!-- Total Revenue Section -->
-            <!-- Total Revenue Section -->
             <section class="bg-black bg-opacity-80 rounded-xl p-6 shadow-lg flex flex-col items-center justify-center text-center">
                 <!-- Icon: Chart Bar -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-green-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
